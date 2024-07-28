@@ -18,7 +18,7 @@ Comparamos os seguintes modelos:
 - XGBoost considerando abertura como dado exógeno
 - SARIMAX também considerando abertura como dado exógeno
 
-Os resultados das métricas de avaliação foram os seguintes:
+Considerando a data de início de `22/07/2021` e `30` dias para teste do modelo, os resultados das métricas de avaliação foram os seguintes:
 
 | Modelo | MAE | MSE | MAPE |
 |---|---|---|---|
