@@ -49,6 +49,22 @@ Entre os motivos da queda de quase 1% na IBOVESPA no dia 23/07/2024, está a des
 
 A análise exploratória dos dados, testes estatíscos, comparativos de modelos e os resultados podem ser encontrados no seguinte notebook: [tech-challenge-fase2-forecasting-ibovespa.ipynb](https://github.com/alexandreaquiles/postech-fiap-dtat-tech-challenge-fase2/blob/main/tech-challenge-fase2-forecasting-ibovespa.ipynb)
 
+## Dashboard para comparação de modelos
+
+Criamos um dashboard com Streamlit para tornar possível a comparação de modelos com diferentes datas de início e tamanhos do dataset de teste.
+
+Para rodar localmente, basta ter instalado a CLI do Streamlit e executar:
+
+```sh
+streamlit run Dashboard.py
+```
+
+Caso não tenha as bibliotecas utilizadas instaladas, execute `pip install` antes de rodar o Streamlit.
+
+Também disponibilizamos o Dashboard online no seguinte endereço: https://postech-fiap-dtat-tech-challenge-fase2-ewruwf6pn5uw5nruap4bh3.streamlit.app/
+
+O Dashboard online apresenta certa lentidão, devido ao custo computacional de executar o treino dos modelos.
+
 ### Fonte dos dados
 
 Dados históricos dos últimos 20 anos da IBOVESPA, considerando o período de 22/07/2004 até 22/07/2024 obtidos a partir do site Investing.com:
