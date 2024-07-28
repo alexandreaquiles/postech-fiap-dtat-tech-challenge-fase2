@@ -51,7 +51,7 @@ A análise exploratória dos dados, testes estatíscos, comparativos de modelos 
 
 ## Dashboard para comparação de modelos
 
-Criamos um dashboard com Streamlit para tornar possível a comparação de modelos com diferentes datas de início e tamanhos do dataset de teste.
+Criamos um dashboard com Streamlit para tornar possível a comparação de modelos com melhores resultados (Prophet, XGBoost e SARIMAX) utilizando diferentes datas de início e tamanhos do dataset de teste.
 
 Para rodar localmente, basta ter instalado a CLI do Streamlit e executar:
 
@@ -63,7 +63,7 @@ Caso não tenha as bibliotecas utilizadas instaladas, execute `pip install` ante
 
 Também disponibilizamos o Dashboard online no seguinte endereço: https://postech-fiap-dtat-tech-challenge-fase2-ewruwf6pn5uw5nruap4bh3.streamlit.app/
 
-O Dashboard online apresenta certa lentidão, devido ao custo computacional de executar o treino dos modelos.
+O Dashboard online apresenta certa lentidão, devido ao custo computacional de executar o treino dos modelos, o que é minimizado na execução local.
 
 ### Fonte dos dados
 
