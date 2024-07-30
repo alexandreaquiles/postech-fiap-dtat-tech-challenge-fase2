@@ -4,19 +4,18 @@ Código do Tech Challenge da Fase 2 da Pós Tech em Data Analytics, que trata de
 
 ## Conclusão
 
-
 O objetivo do Tech Challenge foi, a partir de diferentes modelos preditivos de séries temporais, predizer o preço de fechamento da IBOVESPA.
 
 Nos baseamos nos dados da IBOVESPA do período de 22/07/2021 a 22/07/2024.
 
 Comparamos os seguintes modelos:
  
-- ARIMA
-- AutoARIMA
-- ARIMA considerando retornos diários (pct_change) para trazer estacionariedade na base de dados
-- Prophet considerando dados de abertura como regressor adicional
-- XGBoost considerando abertura como dado exógeno
-- SARIMAX também considerando abertura como dado exógeno
+- [ARIMA](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html#statsmodels.tsa.arima.model.ARIMA) da biblioteca statsmodels
+- [AutoARIMA](https://nixtlaverse.nixtla.io/statsforecast/docs/models/autoarima.html) da biblioteca StatsForecast
+- [ARIMA](https://www.statsmodels.org/stable/generated/statsmodels.tsa.arima.model.ARIMA.html#statsmodels.tsa.arima.model.ARIMA) considerando retornos diários (pct_change) para trazer estacionariedade na base de dados
+- [Prophet](https://facebook.github.io/prophet/) considerando dados de abertura como regressor adicional
+- [XGBoost](https://xgboost.readthedocs.io/en/stable/index.html) considerando abertura como dado exógeno
+- [SARIMAX](https://www.statsmodels.org/stable/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX) da biblioteca statsmodels, também considerando abertura como dado exógeno
 
 Considerando a data de início de `22/07/2021` e `30` dias para teste do modelo, os resultados das métricas de avaliação foram os seguintes:
 
@@ -44,6 +43,24 @@ Entretanto, o dado histórico real de fechamento da IBOVESPA para o dia 23/07/20
 Entre os motivos da queda de quase 1% na IBOVESPA no dia 23/07/2024, está a desvalorização da Vale (VALE3), impulsionada por contratos futuros de minário de ferro e fraca demanda da China, segunda a revista Exame[1]. Portanto, são fatores exógenos de difícil modelagem.
 
 [1]: https://exame.com/invest/mercados/ibovespa-hoje-23-07-2024/
+
+### Gráficos de comparação
+
+Gráficos de comparação entre dados de teste e previsões dos modelos, considerando os `30` últimos dias para teste para o período de 22/07/2021 a 22/07/2024.
+
+#### Prophet
+
+![Prophet - Testes vs Previsões](imagens/prophet-test-vs-predict.png)
+
+#### XGBoost
+
+![XGBoost - Testes vs Previsões](imagens/xgboost-test-vs-predict.png)
+
+
+#### SARIMAX
+
+![SARIMAX - Testes vs Previsões](imagens/sarimax-test-vs-predict.png)
+
 
 ## Notebook com as análises e testes
 
