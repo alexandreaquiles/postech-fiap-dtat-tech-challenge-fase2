@@ -11,6 +11,14 @@ from prophet import Prophet
 import xgboost as xgb
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
+# Configuração da página do Streamlit
+st.set_page_config(page_title='Modelo preditivo do fechamento da IBOVESPA', page_icon=':chart_with_upwards_trend:', layout="wide")
+
+@st.cache_data
+def load_data():
+    return pd.read_csv('dados_ibovespa.csv', sep=',', thousands='.', parse_dates=[0], date_format='%d.%m.%Y')
+
+@st.cache_resource
 def predict_prophet(train, test):
     # Prophet
     train_prophet = train.copy()
@@ -38,6 +46,7 @@ def predict_prophet(train, test):
     predict_prophet_test = predict_prophet.tail(test_size)[['ds', 'yhat']].reset_index(drop=True)
     return test_prophet, predict_prophet_test
 
+@st.cache_resource
 def predict_xgboost(train, test):
     train_xgb = train.copy()
     train_xgb = train_xgb.reset_index()
@@ -65,8 +74,9 @@ def predict_xgboost(train, test):
 
     predict_xgb = reg.predict(X_test_xgb)
 
-    return X_test_xgb, y_test_xgb, predict_xgb
+    return test_xgb, predict_xgb
 
+@st.cache_resource
 def predict_sarimax(train, test):
     train_sarimax = train[['fechamento']].copy()
     exog_train_sarimax = train[['abertura']].copy()
@@ -96,7 +106,7 @@ def calculate_metrics(y_true, y_pred):
     mape = mean_absolute_percentage_error(y_true, y_pred) * 100
     return mae, mse, mape
 
-df = pd.read_csv('dados_ibovespa.csv', sep=',', thousands='.', parse_dates=[0], date_format='%d.%m.%Y')
+df = load_data()
 column_names = ['data', 'fechamento','abertura', 'maxima', 'minima', 'volume', 'variacao']
 df.columns = column_names
 df['volume'] = df['volume'].str.replace('B', 'e9').str.replace('M', 'e6').str.replace('K','e3').str.replace(',', '.')
@@ -109,9 +119,6 @@ min_date = df.index[0].to_pydatetime()
 max_date = df.index[-1].to_pydatetime()
 
 default_test_size = 30
-
-# Configuração da página do Streamlit
-st.set_page_config(page_title='Modelo preditivo do fechamento da IBOVESPA', page_icon=':chart_with_upwards_trend:', layout="wide")
 
 # Cabeçalho
 st.write("# Pós Tech - Data Analytics - 5DTAT")
@@ -155,12 +162,12 @@ with aba1:
 
     # Executando modelos
     test_prophet, predict_prophet = predict_prophet(train, test)
-    X_test_xgb, y_test_xgb, predict_xgb = predict_xgboost(train, test)
+    test_xgb, predict_xgb = predict_xgboost(train, test)
     test_sarimax, predict_sarimax = predict_sarimax(train, test)
 
     # Métricas
     metrics_prophet = calculate_metrics(test_prophet['y'].values, predict_prophet['yhat'].values)
-    metrics_xgb = calculate_metrics(y_test_xgb, predict_xgb)
+    metrics_xgb = calculate_metrics(test_xgb['fechamento'], predict_xgb)
     metrics_sarimax = calculate_metrics(test_sarimax['fechamento'].values, predict_sarimax)
     df_metrics = pd.DataFrame(
         [metrics_prophet, metrics_xgb, metrics_sarimax],
@@ -178,7 +185,7 @@ with aba1:
     st.pyplot(fig_prophet)
 
     st.subheader('XGBoost')
-    fig_xbg = plot_testpredict('XGBoost', X_test_xgb.index, y_test_xgb, X_test_xgb.index, predict_xgb)
+    fig_xbg = plot_testpredict('XGBoost', test_xgb['data'], test_xgb['fechamento'], test_xgb['data'], predict_xgb)
     st.pyplot(fig_xbg)
 
     st.subheader('SARIMAX')
